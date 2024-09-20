@@ -1,16 +1,24 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const CurrencyConverter = () => {
-  const [Value, GetValue] = useState('');
-  const [Exchange, SetExchange] = useState('');
+  const [value, setValue] = useState([]);
 
-  const InputValueResult = (e) => {
-    GetValue(e.target.Value);
+  const API_URL = 'https://api.currencyapi.com/v3/latest?apikey=cur_live_fVP0WsbUm4qTVOhjzcR3w5TBNvYda0f3u6U6Prm4';
 
-    const conversionRate = 40.0;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetch(API_URL);
+        const json = await result.json();
+        console.log(json.results);
+        setValue(json.result)
+      }catch(error) {
+        console.log(error);
+      }
+    }
 
-    SetExchange((event.target.value * conversionRate).toFixed(2));
-  }
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 to-pink-500 p-4">
@@ -28,8 +36,8 @@ const CurrencyConverter = () => {
                 USD
               </span>
               <input
-                value={Value}
-                onChange={InputValueResult} 
+                value={}
+                onChange={} 
                 type="number"
                 className="w-full py-4 pl-16 pr-4 rounded-full border-2 border-purple-300 bg-white text-gray-800 focus:ring-4 focus:ring-pink-300 shadow-inner transition duration-300"
                 placeholder="Enter amount"
@@ -45,7 +53,7 @@ const CurrencyConverter = () => {
                 UAH
               </span>
               <input
-                value={Exchange}
+                value={}
                 type="text"
                 className="w-full py-4 pl-16 pr-4 rounded-full border-2 border-purple-300 bg-white text-gray-800 focus:ring-4 focus:ring-pink-300 shadow-inner transition duration-300"
                 placeholder="Converted amount"
